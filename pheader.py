@@ -61,6 +61,7 @@ def headers(*args, **kwargs):
 	return set_header(*args, **kwargs)
 
 def usage():
+
 	import argparse
 	parser = argparse.ArgumentParser(formatter_class = argparse.RawTextHelpFormatter)
 	parser.add_argument('HEADERS', help = 'string of headers, usually copy from dev tool browser, or type "c" for get string from clipboard', action='store')
@@ -68,18 +69,19 @@ def usage():
 	parser.add_argument('-o', '--origin', help = 'Add url origin to url', action = 'store')
 	if len(sys.argv) == 1:
 		parser.print_help()
-
 	else:
 		args = parser.parse_args()
+		debug(args_HEADERS = args.HEADERS)		
 		if args.HEADERS == 'c':
 			try:
 				import clipboard
 				args.HEADERS = clipboard.paste()
 			except:
 				print(make_colors("Please install `clipboard` before (pip install clipboard) !", 'lw', 'r'))
-		else:
-			headers = set_header(args.HEADERS, args.url, args.origin)
-			pprint(headers)
+
+		
+		headers = set_header(args.HEADERS, args.url, args.origin)
+		pprint(headers)
 
 if __name__ == '__main__':
 	usage()

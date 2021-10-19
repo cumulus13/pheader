@@ -13,6 +13,7 @@ except:
 	def debug(*args, **kwargs):
 		return ''
 from make_colors import make_colors
+from pprint import pprint
 
 def set_header(header_str = None, url = '', origin = ''):
     """generate mediafire url to direct download url
@@ -77,7 +78,8 @@ def usage():
 			except:
 				print(make_colors("Please install `clipboard` before (pip install clipboard) !", 'lw', 'r'))
 		else:
-			set_header(args.HEADERS, args.url, args.origin)
+			headers = set_header(args.HEADERS, args.url, args.origin)
+			pprint(headers)
 
 if __name__ == '__main__':
 	usage()
