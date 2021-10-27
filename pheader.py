@@ -31,16 +31,19 @@ def set_header(header_str = None, url = '', origin = '', cookies = None, user_ag
     accept = accept or "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
     if content_length:
         content_length = "\n" + "content-length: {}".format(str(content_length))
+    if url and origin:
+        origin = urlparse(url)
+        origin = "\n" + "origin: " + origin.scheme + "://" + origin.netloc
+
+    elif not url and origin:
+        origin = urlparse(origin)
+        origin = "\n" + "origin: " + origin.scheme + "://" + origin.netloc
+
     if url:
         url = "\n" + "referer: {}".format(url)
     else:
         url = ''
-    if url and origin:
-        origin = urlparse(url)
-        origin = "\n" + "origin: " + origin.scheme + "://" + origin.netloc
-    else:
-        origin = ''
-        cookie = ''
+    cookie = ''
     debug(origin = origin)
     if cookies:
         if isinstance(cookies, dict):
