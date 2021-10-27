@@ -73,8 +73,7 @@ def set_header(header_str = None, url = '', origin = '', cookies = None, user_ag
     sec-fetch-user:	?1
     sec-fetch-dest:	document{}
     accept-encoding:	gzip, deflate
-    accept-language:	en-US,en;q=0.9,id;q=0.8,ru;q=0.7{}
-    cookie:	aff=3199; cookieconsent_dismissed=yes{}""".format(origin, content_type, user_agent, accept, url, cookie, content_length)
+    accept-language:	en-US,en;q=0.9,id;q=0.8,ru;q=0.7{}{}""".format(origin, content_type, user_agent, accept, url, cookie, content_length)
 
     if header_str:
         debug(cookie = cookie)
