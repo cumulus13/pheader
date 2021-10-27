@@ -53,7 +53,7 @@ def set_header(header_str = None, url = '', origin = '', cookies = None):
                 cookie += key.strip() + "=" + value.strip() + "; "
             debug(cookie = cookie)
         else:
-        	print(make_colors("warning:", 'lw', 'r') + " " + make_colors("cookies must be type dict or string with format 'key=value;' with must be end with ';'", 'y'))
+            print(make_colors("warning:", 'lw', 'r') + " " + make_colors("cookies must be type dict or string with format 'key=value;' with must be end with ';'", 'y'))
     debug(cookie = cookie)
     if cookie:
         cookie = "\n" + "cookie: " + cookie.strip()[:-1]

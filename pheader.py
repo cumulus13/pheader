@@ -15,7 +15,7 @@ except:
 from make_colors import make_colors
 from pprint import pprint
 
-def set_header(header_str = None, url = '', origin = '', cookies = None):
+def set_header(header_str = None, url = '', origin = '', cookies = None, user_agent = None, content_type = None, accept = None, content_length = ''):
     """generate mediafire url to direct download url
 
     Args:
@@ -26,7 +26,11 @@ def set_header(header_str = None, url = '', origin = '', cookies = None):
     Returns:
         TYPE: dict: headers data
     """
-
+    user_agent = user_agent or "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.36"
+    content_type = content_type or "application/x-www-form-urlencoded"
+    accept = accept or "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    if content_length:
+        content_length = "\n" + "content-length: {}".format(str(content_length))
     if url:
         url = "\n" + "referer: {}".format(url)
     else:
@@ -59,19 +63,18 @@ def set_header(header_str = None, url = '', origin = '', cookies = None):
         cookie = "\n" + "cookie: " + cookie.strip()[:-1]
         debug(cookie = cookie)
     if not header_str:
-        header_str ="""content-length:	117
-    cache-control:	max-age=0
+        header_str ="""cache-control:	max-age=0
     upgrade-insecure-requests:	1{}
-    content-type:	application/x-www-form-urlencoded
-    user-agent:	Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.36
-    accept:	text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+    content-type:	{}
+    user-agent:	{}
+    accept:	{}
     sec-fetch-site:	same-origin
     sec-fetch-mode:	navigate
     sec-fetch-user:	?1
     sec-fetch-dest:	document{}
     accept-encoding:	gzip, deflate
     accept-language:	en-US,en;q=0.9,id;q=0.8,ru;q=0.7{}
-    cookie:	aff=3199; cookieconsent_dismissed=yes""".format(origin, url, cookie)
+    cookie:	aff=3199; cookieconsent_dismissed=yes{}""".format(origin, content_type, user_agent, accept, url, cookie, content_length)
 
     if header_str:
         debug(cookie = cookie)
@@ -99,7 +102,7 @@ def usage():
         parser.print_help()
     else:
         args = parser.parse_args()
-        debug(args_HEADERS = args.HEADERS)		
+        debug(args_HEADERS = args.HEADERS)
         if args.HEADERS == 'c':
             try:
                 import clipboard
