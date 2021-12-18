@@ -5,7 +5,7 @@ from setuptools import setup
 import os, sys
 import shutil
 
-NAME = "dropapk"
+NAME = "pheader"
 
 def get_version():
     """Get version and version_info without importing the entire module."""
@@ -95,7 +95,7 @@ setup(
     author_email="cumulus13@gmail.com",
     maintainer="cumulus13 Team",
     maintainer_email="cumulus13@gmail.com",
-    description="Just parser header from string/copy",
+    description="Just simple parse string to dict headers data from string/clipboard",
     # long_description=readme,
     # long_description_content_type="text/markdown",
     packages=[NAME],
