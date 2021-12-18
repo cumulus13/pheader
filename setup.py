@@ -63,6 +63,10 @@ try:
     os.remove(os.path.join('pheader', '__version__.py'))
 except:
     pass
+try:
+    os.remove(os.path.join('pheader', '__meta__.py'))
+except:
+    pass
 shutil.copy2('__version__.py', 'pheader')
 shutil.copy2('pheader.py', 'pheader')
 shutil.copy2('__init__.py', 'pheader')
