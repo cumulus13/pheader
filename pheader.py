@@ -15,7 +15,7 @@ except:
 from make_colors import make_colors
 from pprint import pprint
 
-def set_header(header_str = None, url = '', origin = '', cookies = None, user_agent = None, content_type = None, accept = None, content_length = ''):
+def set_header(header_str = None, url = '', origin = '', cookies = None, user_agent = None, content_type = None, accept = None, content_length = '', **kwargs):
     """generate mediafire url to direct download url
 
     Args:
@@ -85,7 +85,13 @@ def set_header(header_str = None, url = '', origin = '', cookies = None, user_ag
     debug(header_str = header_str)
     header_str = list(filter(None, re.split("\n|\r|\t\t", header_str)))
     debug(header_str = header_str)
-    headers = {key.strip():value.strip() for key,value in [re.split(": |:\t", i) for i in header_str]}
+    headers = {key.strip().lower():value.strip() for key,value in [re.split(": |:\t", i) for i in header_str]}
+    debug(headers = headers)
+    if kwargs:
+        for key in kwargs:
+            value = kwargs.get(key)
+            key = re.sub(" |_", "-", key).lower()
+            headers.update({key: value})
     debug(headers = headers)
     return headers
 

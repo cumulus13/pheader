@@ -15,7 +15,7 @@ except:
 from make_colors import make_colors
 from pprint import pprint
 
-def set_header(header_str = None, url = '', origin = '', cookies = None, user_agent = None, content_type = None, accept = None, content_length = ''):
+def set_header(header_str = None, url = '', origin = '', cookies = None, user_agent = None, content_type = None, accept = None, content_length = '', **kwargs):
     """generate mediafire url to direct download url
 
     Args:
@@ -31,16 +31,19 @@ def set_header(header_str = None, url = '', origin = '', cookies = None, user_ag
     accept = accept or "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
     if content_length:
         content_length = "\n" + "content-length: {}".format(str(content_length))
+    if url and origin:
+        origin = urlparse(url)
+        origin = "\n" + "origin: " + origin.scheme + "://" + origin.netloc
+
+    elif not url and origin:
+        origin = urlparse(origin)
+        origin = "\n" + "origin: " + origin.scheme + "://" + origin.netloc
+
     if url:
         url = "\n" + "referer: {}".format(url)
     else:
         url = ''
-    if url and origin:
-        origin = urlparse(url)
-        origin = "\n" + "origin: " + origin.scheme + "://" + origin.netloc
-    else:
-        origin = ''
-        cookie = ''
+    cookie = ''
     debug(origin = origin)
     if cookies:
         if isinstance(cookies, dict):
@@ -82,7 +85,13 @@ def set_header(header_str = None, url = '', origin = '', cookies = None, user_ag
     debug(header_str = header_str)
     header_str = list(filter(None, re.split("\n|\r|\t\t", header_str)))
     debug(header_str = header_str)
-    headers = {key.strip():value.strip() for key,value in [re.split(": |:\t", i) for i in header_str]}
+    headers = {key.strip().lower():value.strip() for key,value in [re.split(": |:\t", i) for i in header_str]}
+    debug(headers = headers)
+    if kwargs:
+        for key in kwargs:
+            value = kwargs.get(key)
+            key = re.sub(" |_", "-", key).lower()
+            headers.update({key: value})
     debug(headers = headers)
     return headers
 
